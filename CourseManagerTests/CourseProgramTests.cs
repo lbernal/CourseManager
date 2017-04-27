@@ -100,12 +100,7 @@ namespace CourseManagerTests
         [TestMethod]
         public void TestProgramWithPrerequisiteReplacement()
         {
-            var courseEntries = new string[]
-            {
-                "A:",
-                "B: A",
-                "B: C"
-            };
+            var courseEntries = new string[] { "A:", "B: A", "B: C" };
             try
             {
                 var program = new CourseProgram.Program(courseEntries);
@@ -119,12 +114,7 @@ namespace CourseManagerTests
         [TestMethod]
         public void TestProgramWithAtLeastOneNotSelfStatedCourse()
         {
-            var courseEntries = new string[]
-            {
-                "A:",
-                "B: A",
-                "C: B1"
-            };
+            var courseEntries = new string[] { "A:", "B: A", "C: B1" };
             try
             {
                 var program = new CourseProgram.Program(courseEntries);
@@ -132,6 +122,20 @@ namespace CourseManagerTests
             catch (ArgumentException exc)
             {
                 StringAssert.Contains(exc.Message, "At least one course wasn't self stated");
+            }
+        }
+
+        [TestMethod]
+        public void TestProgramWithAnEmptyCourseEntry()
+        {
+            var courseEntries = new string[] { ": A" };
+            try
+            {
+                var program = new CourseProgram.Program(courseEntries);
+            }
+            catch (ArgumentException exc)
+            {
+                StringAssert.Contains(exc.Message, "A empty course entry was found");
             }
         }
     }

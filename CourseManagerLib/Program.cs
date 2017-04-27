@@ -23,7 +23,7 @@ namespace CourseProgram
                 var name = courseSections[0].Trim();
                 if (string.IsNullOrEmpty(name))
                 {
-                    throw new ArgumentException("A empty course entry was specified. Please review your course entries.");
+                    throw new ArgumentException("A empty course entry was found. Please review your course entries.");
                 }
                 var prerequisite = courseSections.Length > 1 ? courseSections[1].Trim() : string.Empty;
                 AddCourse(name, prerequisite);
@@ -45,7 +45,7 @@ namespace CourseProgram
             Courses[name].IsSelfStated = true;
             if (!string.IsNullOrEmpty(prerequisite))
             {
-                ValidateCourseCircularDependencies(name, prerequisite);
+                ValidateCircularDependencies(name, prerequisite);
                 if (!Courses.ContainsKey(prerequisite))
                 {
                     Courses.Add(prerequisite, new Course(prerequisite, null, new List<Course>() {Courses[name]}, false));
@@ -70,7 +70,7 @@ namespace CourseProgram
             }
         }
 
-        private void ValidateCourseCircularDependencies(string name, string prerequisite)
+        private void ValidateCircularDependencies(string name, string prerequisite)
         {
             List<string> visitedCourses = new List<string>() {name};
             string current = prerequisite;
