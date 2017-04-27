@@ -80,11 +80,11 @@ namespace CourseProgram
                 {
                     return;
                 }
-                visitedCourses.Add(current);
-                if (visitedCourses.Count(s => s == current) > 1)
+                if (visitedCourses.Contains(current))
                 {
-                    throw new ArgumentException($"A circular dependency was detected at course entry: {name}: {prerequisite}.");
+                    throw new ArgumentException($"A circular dependency was detected at course entry: '{name}: {prerequisite}'.");
                 }
+                visitedCourses.Add(current);
                 current = Courses[current].PrerequisiteName;
             }
         }
